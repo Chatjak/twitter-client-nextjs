@@ -9,11 +9,23 @@ import {
   HiOutlineDotsHorizontal,
 } from "react-icons/Hi";
 import { HiOutlineChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
-import { AiOutlineHeart, AiOutlineShareAlt } from "react-icons/ai";
-import { BsThreeDots } from "react-icons/bs";
-export default function Post({ id, post }: { id: string; post: post }) {
+import { AiFillHeart, AiOutlineHeart, AiOutlineShareAlt } from "react-icons/ai";
+import { BsThreeDots, BsTrash3 } from "react-icons/bs";
+export default function Post({
+  id,
+  post,
+  token,
+  User,
+}: {
+  id: string;
+  post: post;
+  token: string;
+  User: string
+}) {
   const [userProfile, setUserProfile]: any = useState(null);
-
+  const [totalLike, setTotalLike] = useState<number | null>(null);
+  const [itYourPost, setItYourPost] = useState<boolean>(false)
+  const [hasLiked, setHasLiked] = useState<boolean | null>(null)
   useEffect(() => {
     const getServerSide = async () => {
       try {
@@ -26,23 +38,79 @@ export default function Post({ id, post }: { id: string; post: post }) {
         const imageBlob = await res.blob();
         const imageUrl = URL.createObjectURL(imageBlob);
         setUserProfile(imageUrl);
+        if (User._id === post.user_id._id) {
+          setItYourPost(true)
+        }
       } catch (error) {
         console.log(error);
       }
     };
     getServerSide();
   }, []);
+  //get totalLike
+  useEffect(() => {
+    const getTotalLike = async () => {
+      const res = await fetch(
+        `http://localhost:8080/api/like/${post._id}/total`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!res.ok) {
+        throw new Error();
+      }
+      const data = await res.json();
+      setTotalLike(data);
+    };
+    const hasLike = async () => {
+      const res = await fetch(`http://localhost:8080/api/like/${post._id}/hasLike`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      const result = await res.json()
+      setHasLiked(result)
+    }
+    getTotalLike();
+    hasLike()
+  }, []);
+
+  const Unlike = async () => {
+    setHasLiked(false)
+    await fetch(`http://localhost:8080/api/like/${id}`, {
+      method: 'DELETE', headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+  }
+  const Liked = async () => {
+    setHasLiked(true)
+    await fetch(`http://localhost:8080/api/like/${id}`, {
+      method: 'POST', headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+  }
   return (
     <div className="flex p-3 cursor-pointer border-b border-gray-200 ">
-      {userProfile && (
-        <Image
-          src={userProfile}
-          width={44}
-          height={44}
-          alt="profile"
-          className="h-11 w-11 rounded-full mr-4"
-        />
-      )}
+      <div className="h-11 w-11 mr-4">
+        {userProfile && (
+          <Image
+            src={userProfile}
+            width={44}
+            height={44}
+            alt="profile"
+            className="h-11 w-11 rounded-full"
+          />
+        )}
+      </div>
+
       <div className="flex-1">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-1 whitespace-nowrap">
@@ -60,7 +128,7 @@ export default function Post({ id, post }: { id: string; post: post }) {
             <BsThreeDots className="text-xl" />
           </div>
         </div>
-        <p className="text-gray-800 text-[15px sm:text-[16px] mb-2 mt-2">
+        <p className="text-gray-800 text-[15px sm:text-[16px] mb-2 mt-2 line-clamp-4">
           {post.content}
         </p>
         <div className="flex justify-between text-gray-500 p-2">
@@ -68,9 +136,9 @@ export default function Post({ id, post }: { id: string; post: post }) {
             <HiOutlineChatBubbleOvalLeftEllipsis className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100" />
           </div>
           <div className="flex items-center">
-            <AiOutlineHeart className="h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100" />
+            {hasLiked ? <AiFillHeart className="h-9 w-9 hoverEffect p-2 text-red-600 hover:bg-red-100" onClick={Unlike} /> : <AiOutlineHeart onClick={Liked} className="h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100" />}
           </div>
-          <AiOutlineShareAlt className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100" />
+          {itYourPost ? <BsTrash3 className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100" /> : <AiOutlineShareAlt className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100" />}
           <HiOutlineChartBar className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100" />
         </div>
       </div>

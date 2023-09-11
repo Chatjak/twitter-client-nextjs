@@ -19,7 +19,7 @@ export default function Create({
   token: string;
 }) {
   const [ImageProfile, setImageProfile] = useState<string | null>(null);
-  const [content, setContent] = useState<string>('');
+  const [content, setContent] = useState<string>("");
   const router = useRouter();
   useEffect(() => {
     const getImage = async () => {
@@ -60,16 +60,19 @@ export default function Create({
   };
   return (
     <form onSubmit={create} className="flex p-3 border-b border-gray-200">
-      {ImageProfile && (
-        <Image
-          src={ImageProfile}
-          width={44}
-          height={44}
-          alt="profile"
-          className="h-11 w-11 rounded-full mr-4"
-        />
-      )}
-      <div className="flex flex-col w-full">
+      <div className="w-11 h-11 mr-4 ">
+        {ImageProfile && (
+          <Image
+            src={ImageProfile}
+            width={44}
+            height={44}
+            alt="profile"
+            className="h-11 w-11 rounded-full"
+          />
+        )}
+      </div>
+
+      <div className="flex flex-col flex-1 ">
         <input
           type="text"
           name="content"

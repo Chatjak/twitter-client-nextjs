@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import Create from "@/components/Create";
-import { deleteToken } from "../action";
+
 
 export default async function Home() {
   const cookiesList = cookies();
@@ -43,7 +43,7 @@ export default async function Home() {
 
       {posts &&
         posts.map((post: post) => (
-          <Post key={post._id} id={post._id} post={post} />
+          <Post key={post._id} id={post._id} post={post} token={token.value} User={User} />
         ))}
     </>
   );
