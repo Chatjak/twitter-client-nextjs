@@ -11,6 +11,7 @@ import {
 import { HiOutlineChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
 import { AiFillHeart, AiOutlineHeart, AiOutlineShareAlt } from "react-icons/ai";
 import { BsThreeDots, BsTrash3 } from "react-icons/bs";
+import { useRouter } from "next/navigation";
 export default function Post({
   id,
   post,
@@ -26,6 +27,7 @@ export default function Post({
   const [totalLike, setTotalLike] = useState<number | null>(null);
   const [itYourPost, setItYourPost] = useState<boolean>(false)
   const [hasLiked, setHasLiked] = useState<boolean | null>(null)
+  const router = useRouter();
   useEffect(() => {
     const getServerSide = async () => {
       try {
@@ -97,6 +99,14 @@ export default function Post({
       }
     })
   }
+  const deletePost = async () => {
+    await fetch(`http://localhost:8080/api/post/${id}`, {
+      method: 'DELETE', headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    router.refresh();
+  }
   return (
     <div className="flex p-3 cursor-pointer border-b border-gray-200 ">
       <div className="h-11 w-11 mr-4">
@@ -138,7 +148,7 @@ export default function Post({
           <div className="flex items-center">
             {hasLiked ? <AiFillHeart className="h-9 w-9 hoverEffect p-2 text-red-600 hover:bg-red-100" onClick={Unlike} /> : <AiOutlineHeart onClick={Liked} className="h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100" />}
           </div>
-          {itYourPost ? <BsTrash3 className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100" /> : <AiOutlineShareAlt className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100" />}
+          {itYourPost ? <BsTrash3 className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100" onClick={deletePost} /> : <AiOutlineShareAlt className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100" />}
           <HiOutlineChartBar className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100" />
         </div>
       </div>
