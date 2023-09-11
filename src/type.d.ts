@@ -10,7 +10,7 @@ export interface user {
     _id: string;
     email: string;
     username: string;
-    createAt: string;
+    createdAt: string;
     updatedAt: string;
 }
 export interface userBlob {

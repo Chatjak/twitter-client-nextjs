@@ -12,6 +12,7 @@ import { HiOutlineChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
 import { AiFillHeart, AiOutlineHeart, AiOutlineShareAlt } from "react-icons/ai";
 import { BsThreeDots, BsTrash3 } from "react-icons/bs";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 export default function Post({
   id,
   post,
@@ -124,9 +125,10 @@ export default function Post({
       <div className="flex-1">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-1 whitespace-nowrap">
-            <h4 className="font-bold text-[15px] sm:text-[16px] hover:underline">
+
+            <Link href={`/${post.user_id.username}`} className="font-bold text-[15px] sm:text-[16px] hover:underline">
               {post.user_id.username}
-            </h4>
+            </Link>
             <span className="text-sm sm:text-[15px]">
               @{post.user_id.username} -{" "}
             </span>

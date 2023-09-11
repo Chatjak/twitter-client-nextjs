@@ -21,7 +21,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
-        <main className=" max-w-6xl mx-auto  min-h-screen flex">
+        <main className=" max-w-6xl mx-auto  flex">
           <div className="hidden sm:flex flex-col p-2 xl:items-start fixed h-full  ">
             <Sidebar />
           </div>
