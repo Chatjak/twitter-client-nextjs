@@ -1,18 +1,35 @@
-import classes from "./index.module.scss";
 import { HiOutlineSparkles } from "react-icons/hi2";
 import Post from "@/components/Post";
 import { post } from "../../type";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+
+import Create from "@/components/Create";
+import { deleteToken } from "../action";
+
 export default async function Home() {
   const cookiesList = cookies();
+  const token = cookiesList.get("token");
   const hasToken = cookiesList.has("token");
   if (!hasToken) {
     redirect("/sign-in");
   }
-  const res = await fetch("http://localhost:3000/api/posts");
+
+  const response = await fetch(`http://localhost:3000/api/getUser`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(token?.value),
+  });
+  const User = await response.json();
+  if (User === true) {
+    redirect("/sign-in");
+  }
+  const res = await fetch("http://localhost:8080/api/post");
+
   const data = await res.json();
-  const posts = data.data;
+  const posts = data;
 
   return (
     <>
@@ -22,6 +39,8 @@ export default async function Home() {
           <HiOutlineSparkles />
         </div>
       </div>
+      {token && <Create User={User} token={token.value} />}
+
       {posts &&
         posts.map((post: post) => (
           <Post key={post._id} id={post._id} post={post} />

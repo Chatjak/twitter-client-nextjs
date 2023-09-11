@@ -7,6 +7,9 @@ const nextConfig = {
   images: {
     domains: ["help.twitter.com"],
   },
+  experimental: {
+    serverActions: true,
+  },
 };
 
 module.exports = nextConfig;

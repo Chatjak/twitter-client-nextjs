@@ -6,8 +6,8 @@ import React from "react";
 export default function page() {
   const cookiesList = cookies();
   const hasToken = cookiesList.has("token");
-  if (hasToken) {
-    redirect("/");
-  }
+  // if (hasToken) {
+  //   // redirect("/");
+  // }
   return <SignIn />;
 }

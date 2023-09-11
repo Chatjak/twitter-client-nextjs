@@ -13,7 +13,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
     return NextResponse.json(data.status);
   }
   const result = await data.json();
-  cookies().set("token", result.token, { httpOnly: true, secure: true });
+  cookies().set("token", result.token, {
+    httpOnly: true,
+    path: "/",
+    secure: true,
+  });
 
   return NextResponse.json(result);
 }

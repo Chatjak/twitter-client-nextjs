@@ -5,6 +5,7 @@ export async function GET() {
     headers: { "Content-Type": "application/json" },
   });
   const data = await res.json();
+  console.log(data);
 
   return NextResponse.json({ data });
 }
