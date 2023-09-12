@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { post } from "../type";
+import { post, user } from "../type";
 import moment from "moment";
 import Image, { StaticImageData } from "next/image";
 import {
@@ -22,7 +22,7 @@ export default function Post({
   id: string;
   post: post;
   token: string;
-  User: string
+  User: user
 }) {
   const [userProfile, setUserProfile]: any = useState(null);
   const [totalLike, setTotalLike] = useState<number | null>(null);
@@ -36,11 +36,13 @@ export default function Post({
           `http://localhost:8080/api/user/${post.user_id._id}/userProfile`
         );
         if (!res.ok) {
-          throw new Error();
+          setUserProfile('/user.png')
+        } else {
+
+          const imageBlob = await res.blob();
+          const imageUrl = URL.createObjectURL(imageBlob);
+          setUserProfile(imageUrl);
         }
-        const imageBlob = await res.blob();
-        const imageUrl = URL.createObjectURL(imageBlob);
-        setUserProfile(imageUrl);
         if (User._id === post.user_id._id) {
           setItYourPost(true)
         }
@@ -91,6 +93,9 @@ export default function Post({
         Authorization: `Bearer ${token}`
       }
     })
+    setTotalLike(e => {
+      return e - 1
+    })
   }
   const Liked = async () => {
     setHasLiked(true)
@@ -98,6 +103,9 @@ export default function Post({
       method: 'POST', headers: {
         Authorization: `Bearer ${token}`
       }
+    })
+    setTotalLike(e => {
+      return e + 1
     })
   }
   const deletePost = async () => {
@@ -148,7 +156,7 @@ export default function Post({
             <HiOutlineChatBubbleOvalLeftEllipsis className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100" />
           </Link>
           <div className="flex items-center">
-            {hasLiked ? <AiFillHeart className="h-9 w-9 hoverEffect p-2 text-red-600 hover:bg-red-100" onClick={Unlike} /> : <AiOutlineHeart onClick={Liked} className="h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100" />}
+            {hasLiked ? <div className="flex items-center"><AiFillHeart className="h-9 w-9 hoverEffect p-2 text-red-600 hover:bg-red-100" onClick={Unlike} /><span className="font-light text-sm">{totalLike}</span></div> : <div className="flex items-center"><AiOutlineHeart onClick={Liked} className="h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100" /><span className="font-light text-sm">{totalLike}</span></div>}
           </div>
           {itYourPost ? <BsTrash3 className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100" onClick={deletePost} /> : <AiOutlineShareAlt className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100" />}
           <HiOutlineChartBar className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100" />

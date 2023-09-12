@@ -15,11 +15,13 @@ export default function Comment({ id, comment }: { id: string, comment: commentM
                     `http://localhost:8080/api/user/${comment.user_id._id}/userProfile`
                 );
                 if (!res.ok) {
-                    throw new Error();
+                    setUserProfile('/user.png')
+                } else {
+
+                    const imageBlob = await res.blob();
+                    const imageUrl = URL.createObjectURL(imageBlob);
+                    setUserProfile(imageUrl);
                 }
-                const imageBlob = await res.blob();
-                const imageUrl = URL.createObjectURL(imageBlob);
-                setUserProfile(imageUrl);
             } catch (error) {
                 console.log(error);
             }

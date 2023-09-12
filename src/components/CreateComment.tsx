@@ -22,11 +22,13 @@ export default function CreateComment({ User, token, params }: { User: user; tok
                 }
             );
             if (!resImage.ok) {
-                throw new Error();
+                setImageProfile('/user.png')
+            } else {
+
+                const userProfile = await resImage.blob();
+                const ImageURL = URL.createObjectURL(userProfile);
+                setImageProfile(ImageURL);
             }
-            const userProfile = await resImage.blob();
-            const ImageURL = URL.createObjectURL(userProfile);
-            setImageProfile(ImageURL);
         };
         getImage();
     }, []);

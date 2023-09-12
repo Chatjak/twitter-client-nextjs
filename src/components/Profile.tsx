@@ -23,9 +23,13 @@ export default function Profile({ User, currentUserId, token }: { User: user; cu
     useEffect(() => {
         const getUserImage = async () => {
             const userProfile = await fetch(`http://localhost:8080/api/user/${User._id}/userProfile`);
-            const ImageBlob = await userProfile.blob();
-            const ImageUrl = URL.createObjectURL(ImageBlob);
-            setUserProfile(ImageUrl)
+            if (userProfile.status === 404) {
+                setUserProfile('/user.png')
+            } else {
+                const ImageBlob = await userProfile.blob();
+                const ImageUrl = URL.createObjectURL(ImageBlob);
+                setUserProfile(ImageUrl)
+            }
         }
         getUserImage()
         if (User._id === currentUserId) {

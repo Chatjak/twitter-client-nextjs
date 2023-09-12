@@ -27,9 +27,10 @@ export default function SignIn() {
     if ((await res.json()) === 400) {
       setIsError(true);
       setIsLoading(false);
+    } else {
+      router.push("/");
     }
     // setIsLoading(false);
-    router.push("/");
   };
   return (
     <form
