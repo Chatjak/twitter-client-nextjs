@@ -33,7 +33,11 @@ export const getComments = async (postId: string) => {
     return data
 }
 
-
+export const logout = async () => {
+    const cookiesList = cookies();
+    cookiesList.delete('token')
+    redirect('/sign-in')
+}
 
 
 export const getValue = async () => {

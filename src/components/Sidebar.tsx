@@ -6,6 +6,7 @@ import { BsBell, BsBookmark, BsClipboard, BsHash } from "react-icons/bs";
 import { BiUser } from "react-icons/bi";
 import SidebarMenuItem from "./SidebarMenuItem";
 import Link from "next/link";
+import SignOut from "./SignOut";
 export const Sidebar = () => {
   return (
     <>
@@ -27,13 +28,7 @@ export const Sidebar = () => {
         <SidebarMenuItem text="Profile" Icon={BiUser} />
         <SidebarMenuItem text="More" Icon={HiOutlineDotsCircleHorizontal} />
       </div>
-      <div className="hoverEffect text-gray-700 flex items-center justify-center xl:justify-start mt-auto">
-        <BiUser className="h-7 w-7 rounded-full xl:mr-2" />
-        <div className="leading-5 hidden xl:inline">
-          <h4 className="font-bold">Chatjak</h4>
-          <p className="text-gray-500">@chatjak</p>
-        </div>
-      </div>
+      <SignOut />
     </>
   );
 };
