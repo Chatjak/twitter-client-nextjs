@@ -3,12 +3,13 @@ import { user } from '@/type'
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import { BsCardImage } from 'react-icons/bs';
 
-export default function Comment({ User, token }: { User: user; token: string }) {
+
+export default function CreateComment({ User, token, params }: { User: user; token: string; params: { postId: string } }) {
     const [ImageProfile, setImageProfile] = useState<string | null>(null);
     const [content, setContent] = useState<string>("");
     const router = useRouter();
+
     useEffect(() => {
         const getImage = async () => {
             const resImage = await fetch(
@@ -29,7 +30,23 @@ export default function Comment({ User, token }: { User: user; token: string }) 
         };
         getImage();
     }, []);
-    return <form className="flex p-3 border-b border-gray-200">
+    const create = async (event: React.FormEvent) => {
+        event.preventDefault()
+        await fetch(`http://localhost:8080/api/comment`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                post_id: params.postId,
+                content: content
+            })
+        })
+        setContent('');
+        router.refresh()
+    }
+    return <form onSubmit={create} className="flex p-3 border-b border-gray-200">
         <div className="w-11 h-11 mr-4 ">
             {ImageProfile && (
                 <Image

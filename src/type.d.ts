@@ -21,3 +21,12 @@ export interface currentUser {
     userData: user;
     userProfile: userBlob;
 }
+
+export interface commentModel {
+    _id: string,
+    post_id: string,
+    user_id: user
+    content: string
+    createdAt: string;
+    updatedAt: string;
+}

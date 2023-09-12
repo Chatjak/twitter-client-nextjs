@@ -43,8 +43,6 @@ export default function Create({
   }, []);
   const create = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(content);
-
     const res = await fetch("http://localhost:3000/api/create", {
       method: "POST",
       headers: {

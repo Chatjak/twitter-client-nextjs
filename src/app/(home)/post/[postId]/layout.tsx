@@ -1,4 +1,4 @@
-import Comment from "@/components/Comments";
+import Comment from "@/components/CreateComment";
 import Post from "@/components/Post";
 import { getCurrentUser, getValue } from "@/util/getFunction";
 import { notFound } from "next/navigation";
@@ -28,8 +28,6 @@ export default async function PostLayout({
     const post = await getPost(params.postId)
     const User = await getCurrentUser()
     const token = await getValue()
-    console.log(post);
-
     return <>
         <div className="flex py-2 px-3 stick top-0 z-50 bg-white border-b border-gray-200">
             <h2 className="text-lg sm:text-xl font-bold cursor-pointer">Post</h2>

@@ -27,6 +27,12 @@ export const getCurrentUser = async () => {
 }
 
 
+export const getComments = async (postId: string) => {
+    const response = await fetch(`http://localhost:8080/api/comment/${postId}`)
+    const data = await response.json()
+    return data
+}
+
 
 
 
