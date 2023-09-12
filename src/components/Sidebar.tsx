@@ -5,17 +5,18 @@ import { HiOutlineDotsCircleHorizontal } from "react-icons/Hi";
 import { BsBell, BsBookmark, BsClipboard, BsHash } from "react-icons/bs";
 import { BiUser } from "react-icons/bi";
 import SidebarMenuItem from "./SidebarMenuItem";
+import Link from "next/link";
 export const Sidebar = () => {
   return (
     <>
-      <div className="hoverEffect p-0 hover:bg-blue-100 xl:px-1">
+      <Link href={'/'} className="hoverEffect p-0 hover:bg-blue-100 xl:px-1">
         <Image
           width="50"
           height="50"
           alt="logo_twitter"
           src="https://help.twitter.com/content/dam/help-twitter/brand/logo.png"
         />
-      </div>
+      </Link>
       <div className="mt-4 mb-2 5 xl:items-start">
         <SidebarMenuItem text="Home" Icon={AiFillHome} active />
         <SidebarMenuItem text="Explore" Icon={BsHash} />

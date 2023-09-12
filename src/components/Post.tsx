@@ -133,7 +133,7 @@ export default function Post({
               @{post.user_id.username} -{" "}
             </span>
             <span className="text-sm sm:text-[15px] hover:underline">
-              {moment().startOf("day").from(post.createdAt)}
+              {moment(post.createdAt).fromNow()}
             </span>
           </div>
           <div className="h-10 w-10 hoverEffect flex items-center justify-center hover:bg-sky-100 hover:text-sky-500">
@@ -144,9 +144,9 @@ export default function Post({
           {post.content}
         </p>
         <div className="flex justify-between text-gray-500 p-2">
-          <div className="flex items-center select-none">
+          <Link href={`/post/${id}`} className="flex items-center select-none">
             <HiOutlineChatBubbleOvalLeftEllipsis className="h-9 w-9 hoverEffect p-2 hover:text-sky-500 hover:bg-sky-100" />
-          </div>
+          </Link>
           <div className="flex items-center">
             {hasLiked ? <AiFillHeart className="h-9 w-9 hoverEffect p-2 text-red-600 hover:bg-red-100" onClick={Unlike} /> : <AiOutlineHeart onClick={Liked} className="h-9 w-9 hoverEffect p-2 hover:text-red-600 hover:bg-red-100" />}
           </div>

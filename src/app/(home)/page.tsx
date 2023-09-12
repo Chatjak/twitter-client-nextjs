@@ -5,9 +5,11 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import Create from "@/components/Create";
+import { delay } from "@/util/getFunction";
 
 
 export default async function Home() {
+  await delay(1500);
   const cookiesList = cookies();
   const token = cookiesList.get("token");
   const hasToken = cookiesList.has("token");
@@ -41,7 +43,7 @@ export default async function Home() {
       </div>
       {token && <Create User={User} token={token.value} />}
 
-      {posts &&
+      {posts && token &&
         posts.map((post: post) => (
           <Post key={post._id} id={post._id} post={post} token={token.value} User={User} />
         ))}

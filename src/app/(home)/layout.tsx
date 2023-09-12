@@ -2,9 +2,7 @@ import { Sidebar } from "@/components/Sidebar";
 import "../globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import Feed from "@/components/Feed";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
