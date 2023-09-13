@@ -7,7 +7,7 @@ import { BiUser } from "react-icons/bi";
 import SidebarMenuItem from "./SidebarMenuItem";
 import Link from "next/link";
 import SignOut from "./SignOut";
-export const Sidebar = () => {
+export const Sidebar = ({ username }: { username: string }) => {
   return (
     <>
       <Link href={'/'} className="hoverEffect p-0 hover:bg-blue-100 xl:px-1">
@@ -25,7 +25,7 @@ export const Sidebar = () => {
         <SidebarMenuItem text="Messages" Icon={AiOutlineInbox} />
         <SidebarMenuItem text="Bookmarks" Icon={BsBookmark} />
         <SidebarMenuItem text="Lists" Icon={BsClipboard} />
-        <SidebarMenuItem text="Profile" Icon={BiUser} />
+        <SidebarMenuItem text="Profile" Icon={BiUser} username={username} />
         <SidebarMenuItem text="More" Icon={HiOutlineDotsCircleHorizontal} />
       </div>
       <SignOut />
