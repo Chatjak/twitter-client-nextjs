@@ -3,6 +3,10 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function POST(req: NextRequest, res: NextResponse) {
+  const hasToken = cookies().has('token')
+  if (hasToken) {
+    cookies().delete('token')
+  }
   const body = await req.json();
   const data = await fetch("http://localhost:8080/api/auth/sign-in", {
     method: "POST",
